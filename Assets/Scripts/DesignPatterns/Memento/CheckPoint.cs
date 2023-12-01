@@ -15,7 +15,7 @@ public class CheckPoint : MonoBehaviour
 
             PlayerController.Get().SetPosition();
             //((IOriginator)PlayerController.Get()).Save();
-            PlayerController.Get().Save();
+            PlayerController.Get().SaveCheckPoint();
         }
     }
 }

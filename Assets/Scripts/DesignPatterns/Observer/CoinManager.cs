@@ -30,6 +30,7 @@ public class CoinManager : MonoBehaviour //, IOriginator
     {
         onCoinCollected?.Invoke(currentCoins);
         coins = currentCoins;
+        PlayerController.Get().SetCoins();
     }
     //event manager administra eventos
     public void SubscribeOnCoinCollected(UnityAction<int> callback)
@@ -44,7 +45,6 @@ public class CoinManager : MonoBehaviour //, IOriginator
 
     public int GetCoins()
     {
-        originator.SetStateCoins(coins);
         return coins;
     }
 

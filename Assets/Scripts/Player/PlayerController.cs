@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,6 +21,9 @@ public class PlayerController : MonoBehaviour, IOriginator
     [Header("Components")]
     public Animator anim;
     public CharacterController controller;
+
+ 
+
     //public Transform pivot;
     public GameObject playerModel;
     public Renderer head;
@@ -158,14 +162,13 @@ public class PlayerController : MonoBehaviour, IOriginator
         EnemyScoreSystem.Get().UpdateEnemyScore(enemyCount);
     }
 
-    //public void SaveCheckPoint()
-    //{
-    //    Debug.Log("Save Checkpoint");
+    public void SetCoins()
+    {
 
-    //    coinCount = CoinManager.instance.GetCoins();
-    //    originator.SetState(transform.position, coinCount, enemyCount);
-    //    careTaker.SaveCheckPoint();
-    //}
+        coinCount = CoinManager.instance.GetCoins();
+        originator.SetStateCoins(coinCount);
+        //careTaker.SaveCheckPoint();
+    }
 
     public void SetPosition()
     {
@@ -216,7 +219,7 @@ public class PlayerController : MonoBehaviour, IOriginator
         //originator.SetStatePlayerPosition(transform.position);
         //originator.SetStateEnemies(enemyCount);
         //throw new System.NotImplementedException();
-        originator.Save();
+       return originator.Save();
     }
 
     public void Restore(IMemento memento)
@@ -224,5 +227,8 @@ public class PlayerController : MonoBehaviour, IOriginator
         throw new System.NotImplementedException();
     }
 
-   
+    public void SaveCheckPoint()
+    {
+        careTaker.SaveCheckPoint();
+    }
 }

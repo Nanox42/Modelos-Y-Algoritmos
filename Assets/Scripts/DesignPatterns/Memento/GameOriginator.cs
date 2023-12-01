@@ -27,6 +27,7 @@ public class GameOriginator : MonoBehaviour, IOriginator
     }
     public void SetStateCoins(int coins)
     {
+        Debug.Log("Valor Monedas");
         coinCount = coins;
     }
     public void SetStateEnemies(int enemies)
