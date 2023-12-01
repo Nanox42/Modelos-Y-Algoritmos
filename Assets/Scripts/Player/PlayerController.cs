@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static GameOriginator;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IOriginator
 {
     private static PlayerController instance;
     private Transform cameraTransform;
@@ -154,16 +154,27 @@ public class PlayerController : MonoBehaviour
     public void SetEnemyCount()
     {
         enemyCount++;
+        SetEnemies();
         EnemyScoreSystem.Get().UpdateEnemyScore(enemyCount);
     }
 
-    public void SaveCheckPoint()
-    {
-        Debug.Log("Save Checkpoint");
+    //public void SaveCheckPoint()
+    //{
+    //    Debug.Log("Save Checkpoint");
 
-        coinCount = EventManager.instance.GetCoins();
-        originator.SetState(transform.position, coinCount, enemyCount);
-        careTaker.SaveCheckPoint();
+    //    coinCount = CoinManager.instance.GetCoins();
+    //    originator.SetState(transform.position, coinCount, enemyCount);
+    //    careTaker.SaveCheckPoint();
+    //}
+
+    public void SetPosition()
+    {
+        originator.SetStatePlayerPosition(transform.position);
+    }
+
+    public void SetEnemies()
+    {
+        originator.SetStateEnemies(enemyCount);
     }
 
     public void RespawnPlayer()
@@ -184,7 +195,7 @@ public class PlayerController : MonoBehaviour
             enemyCount = originator.GetEnemiesDefeated();
 
             EnemyScoreSystem.Get().UpdateEnemyScore(enemyCount);
-            EventManager.instance.CoinCollected(coinCount);
+            CoinManager.instance.CoinCollected(coinCount);
         }
         else
         {
@@ -196,7 +207,22 @@ public class PlayerController : MonoBehaviour
             enemyCount = 0;
 
             EnemyScoreSystem.Get().UpdateEnemyScore(enemyCount);
-            EventManager.instance.CoinCollected(coinCount);
+            CoinManager.instance.CoinCollected(coinCount);
         }       
     }
+
+    public IMemento Save()
+    {
+        //originator.SetStatePlayerPosition(transform.position);
+        //originator.SetStateEnemies(enemyCount);
+        //throw new System.NotImplementedException();
+        originator.Save();
+    }
+
+    public void Restore(IMemento memento)
+    {
+        throw new System.NotImplementedException();
+    }
+
+   
 }

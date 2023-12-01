@@ -10,12 +10,12 @@ public class ScoreSystem : MonoBehaviour
 
     private void Start()
     {
-        EventManager.instance.SubscribeOnCoinCollected(UpdateScore);
+        CoinManager.instance.SubscribeOnCoinCollected(UpdateScore);
     }
 
     private void OnDestroy()
     {
-        EventManager.instance.UnSubscribeOnCoinCollected(UpdateScore);
+        CoinManager.instance.UnSubscribeOnCoinCollected(UpdateScore);
     }
 
     private void UpdateScore(int currentCoins)

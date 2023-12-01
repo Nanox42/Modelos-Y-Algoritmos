@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameOriginator : MonoBehaviour
+public class GameOriginator : MonoBehaviour, IOriginator
 {
     [SerializeField] private Vector3 playerPosition;
     [SerializeField] private int coinCount;
@@ -15,15 +15,22 @@ public class GameOriginator : MonoBehaviour
 
     public void Restore(IMemento memento)
     {
-        playerPosition = ((GameMemento)memento).playerPosition;
-        coinCount = ((GameMemento)memento).coinCount;
-        enemiesDefeated = ((GameMemento)memento).enemiesDefeated;
+        GameMemento castedMemento = (GameMemento)memento;
+        playerPosition = castedMemento.playerPosition;
+        coinCount = castedMemento.coinCount;
+        enemiesDefeated = castedMemento.enemiesDefeated;
     }
 
-    public void SetState(Vector3 position, int coins, int enemies)
+    public void SetStatePlayerPosition(Vector3 position)
     {
         playerPosition = position;
+    }
+    public void SetStateCoins(int coins)
+    {
         coinCount = coins;
+    }
+    public void SetStateEnemies(int enemies)
+    {
         enemiesDefeated = enemies;
     }
 
@@ -45,9 +52,9 @@ public class GameOriginator : MonoBehaviour
     [System.Serializable]
     private class GameMemento : IMemento
     {
-        public Vector3 playerPosition;
-        public int coinCount;
-        public int enemiesDefeated;
+        public Vector3 playerPosition; // se dejó public porque la clase es private
+        public int coinCount; // se dejó public porque la clase es private
+        public int enemiesDefeated; // se dejó public porque la clase es private
 
         public GameMemento(Vector3 position, int coins, int enemies)
         {
@@ -56,16 +63,19 @@ public class GameOriginator : MonoBehaviour
             this.enemiesDefeated = enemies;
         }
 
-        public void LoadTo(GameOriginator originator)
-        {
-            originator.playerPosition = playerPosition;
-            originator.coinCount = coinCount;
-            originator.enemiesDefeated = enemiesDefeated;
-        }
+       
     }    
+}
+
+public interface IOriginator
+{
+    IMemento Save();
+    void Restore(IMemento memento);
+    //void SetStatePlayerPosition(Vector3 position);
+    //void SetStateCoins(int coins);
+    //void SetStateEnemies(int enemies);
 }
 
 public interface IMemento
 {
-    void LoadTo(GameOriginator originator);
 }

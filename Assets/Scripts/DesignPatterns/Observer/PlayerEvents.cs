@@ -12,7 +12,7 @@ public class PlayerEvents : MonoBehaviour
         {
             coins++;
             Destroy(other.gameObject);
-            EventManager.instance.CoinCollected(coins);
+            CoinManager.instance.CoinCollected(coins);
         }
     }
 

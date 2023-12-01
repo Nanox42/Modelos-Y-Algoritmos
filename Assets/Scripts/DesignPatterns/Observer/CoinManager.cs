@@ -4,10 +4,11 @@ using UnityEngine;
 using System;
 using UnityEngine.Events;
 
-public class EventManager : MonoBehaviour
+public class CoinManager : MonoBehaviour //, IOriginator
 {
    private int coins;
-   public static EventManager instance { get; private set; }
+   private GameOriginator originator; 
+   public static CoinManager instance { get; private set; }
    [SerializeField] private CoinCollectedEvent onCoinCollected; //no debe ser expuesto y por eso es private
    
     private void Awake()
@@ -43,6 +44,17 @@ public class EventManager : MonoBehaviour
 
     public int GetCoins()
     {
+        originator.SetStateCoins(coins);
         return coins;
     }
+
+    //public IMemento Save()
+    //{
+    //    return originator.SetStateCoins(coins);
+    //}
+
+    //public void Restore(IMemento memento)
+    //{
+    //    throw new NotImplementedException();
+    //}
 }
