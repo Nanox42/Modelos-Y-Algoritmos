@@ -1,21 +1,20 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 [Serializable]
 public class StrategyForce : IMovementStrategy
 {
-    private Vector3 startPoint;
-    private Vector3 finalPoint;
+    [SerializeField]
+    private List<Transform> waypoints;
     private bool isMovingToStart; //falso
     private bool initialForce; //falso
 
-    public StrategyForce(Vector3 start, Vector3 end)
-    {
-        startPoint = start;
-        finalPoint = end;
-    }
+    
     public void Movement(Entity entity)
     {
+        Vector3 startPoint = waypoints[0].position;
+        Vector3 finalPoint = waypoints[1].position;
         //sistema movimiento fuerza
         Rigidbody rb = entity.GetComponent<Rigidbody>();
         if(!initialForce)
@@ -27,7 +26,7 @@ public class StrategyForce : IMovementStrategy
         {
             isMovingToStart = !isMovingToStart;
             ApplyForce(rb, isMovingToStart ? startPoint : finalPoint, entity._force);
-
+            initialForce = false;
         }
 
     }

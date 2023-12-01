@@ -7,7 +7,8 @@ using System;
 [Serializable]
 public class StrategyWaypoints : IMovementStrategy
 {
-    private readonly List<Transform> waypoints;
+    [SerializeField]
+    private List<Transform> waypoints;
     private int currentWayPointIndex;
     private bool isForward = true;
 

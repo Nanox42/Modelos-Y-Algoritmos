@@ -20,9 +20,6 @@ public class Entity:MonoBehaviour
     [SerializeField] private MovementType initialMovementType;
     public float _speed = 5f;
     public float _force = 5f;
-    public List<Transform> waypoints;
-    Vector3 startPoint;
-    Vector3 endPoint;
     [SerializeField]
     private StrategyWaypoints strategyWaypoints;
     [SerializeField]
@@ -32,18 +29,14 @@ public class Entity:MonoBehaviour
 
     private void Start()
     {
-        startPoint = waypoints[0].position;
-        endPoint = waypoints[1].position;
         switch (initialMovementType)
         {
             case MovementType.WayPoints:
-                //movementStrategy = strategyWaypoints;
-                movementStrategy = new StrategyWaypoints(waypoints);
+                movementStrategy = strategyWaypoints;
                  break;
 
             case MovementType.Force:
-                //movementStrategy = strategyForce;
-                movementStrategy = new StrategyForce(startPoint,endPoint);
+                movementStrategy = strategyForce;
                 break;
         }
         StartCoroutine(SetMovementStrategy());
@@ -64,11 +57,11 @@ public class Entity:MonoBehaviour
             // Alternar entre las estrategias
             if (movementStrategy is StrategyWaypoints)
             {
-                movementStrategy = new StrategyForce(startPoint, endPoint);
+                movementStrategy = strategyWaypoints;
             }
             else if (movementStrategy is StrategyForce)
             {
-                movementStrategy = new StrategyWaypoints(waypoints);
+                movementStrategy = strategyForce;
             }
         }
     }
